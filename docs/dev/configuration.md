@@ -77,7 +77,7 @@ resolver = HederaDidResolver(client_provider, custom_cache_instance)
 Due to multi-environment nature of SDK (Python + Java SDK wrapper), logger setup actually consists from two independent
 instances - Python logger (built-in) and Java SDK logger (with `ch.qos.logback:logback-classic` provider).
 
-For convenience, there is a single `configure_logger` (see [src](TODO: public repo link)) helper that sets configuration for
+For convenience, there is a single `configure_logger` (see [src](https://github.com/hashgraph/did-sdk-py/blob/main/did_sdk_py/utils/logger.py)) helper that sets configuration for
 both instances.
 
 ### Supported properties and environment variables

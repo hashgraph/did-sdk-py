@@ -22,8 +22,8 @@ Here you can find basic SDK usage examples.
 
 For more complex examples, please refer to SDK integration tests:
 
-- [Hedera DID](TODO: public repo link)
-- [AnonCreds registry](TODO: public repo link)
+- [Hedera DID](https://github.com/hashgraph/did-sdk-py/blob/main/tests/integration/test_hedera_did.py)
+- [AnonCreds registry](https://github.com/hashgraph/did-sdk-py/blob/main/tests/integration/test_hedera_anoncreds_registry.py)
 
 ### Create Hedera Client provider (for testnet)
 
@@ -40,6 +40,10 @@ client_provider = HederaClientProvider(
 did = HederaDid(client_provider=client_provider, private_key_der=private_key_der)
 
 await did.register()
+
+await did.add_service(
+    id_=f"{did.identifier}#service-1", service_type="LinkedDomains", service_endpoint="https://example.com/vcs"
+)
 ```
 
 ### Resolve existing Hedera DID

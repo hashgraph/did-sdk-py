@@ -14,7 +14,7 @@ from .hcs.hcs_did_message import HcsDidMessage, HcsDidMessageEnvelope
 from .hedera_did import HederaDid
 from .types import DIDDocument, DIDDocumentMetadata, DIDResolutionResult
 
-INSERTION_TRESHOLD_SECONDS = float(5)
+INSERTION_THRESHOLD_SECONDS = float(10)
 
 
 class DidResolutionError(StrEnum):
@@ -95,7 +95,7 @@ class HederaDidResolver:
                 last_updated_timestamp: float = timestamped_record.timestamp
                 did_document: DidDocument = timestamped_record.data
 
-                if (now - last_updated_timestamp) > INSERTION_TRESHOLD_SECONDS:
+                if (now - last_updated_timestamp) > INSERTION_THRESHOLD_SECONDS:
                     result = await HcsMessageResolver(
                         topic_id,
                         HcsDidMessageEnvelope,

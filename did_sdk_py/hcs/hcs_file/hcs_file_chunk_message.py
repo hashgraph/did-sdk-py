@@ -1,7 +1,5 @@
 from typing import ClassVar
 
-from ...utils.encoding import is_b64
-from ..constants import BASE64_JSON_CONTENT_PREFIX
 from ..hcs_message import HcsMessage
 
 
@@ -14,10 +12,7 @@ class HcsFileChunkMessage(HcsMessage):
         self.content = chunk_content
 
     def is_valid(self, topic_id: str | None = None) -> bool:
-        if self.ordering_index is None or not self.content:
-            return False
-
-        return self.ordering_index >= 0 and is_b64(self.content.removeprefix(BASE64_JSON_CONTENT_PREFIX))
+        return bool(self.ordering_index is not None and self.ordering_index >= 0 and self.content)
 
     @classmethod
     def from_json_payload(cls, payload: dict):

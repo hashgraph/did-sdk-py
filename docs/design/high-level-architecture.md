@@ -2,7 +2,7 @@
 
 ## Project structure
 
-Internal SDK structure includes following modules
+Internal SDK structure includes following modules:
 
 - DID module
   - [Src link](../../did_sdk_py/did)
@@ -14,7 +14,7 @@ Internal SDK structure includes following modules
   - Provides Hedera AnonCreds Registry as a public API
   - Technical design notes can be found in [Hedera AnonCreds Method page](hedera-anoncreds-method.md)
   - Public API structure is inspired by [ACA-Py AnonCreds Registry use case](https://aca-py.org/latest/features/AnonCredsMethods/)
-- Hedera Consensus Service (HCS) module
+- Hedera Consensus Service (HCS) integration module
   - [Src link](../../did_sdk_py/hcs)
   - Contains HCS integration logic and API used across the SDK
   - Not a part of public API

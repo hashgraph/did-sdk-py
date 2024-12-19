@@ -102,13 +102,13 @@ def multibase_decode(value: str) -> bytes:
 
 
 def pad(val: str) -> str:
-    """Pad base64 values if need be: JWT calls to omit trailing padding."""
+    """Pad base64 values if needed."""
     padlen = 4 - len(val) % 4
     return val if padlen > 2 else (val + "=" * padlen)
 
 
 def unpad(val: str) -> str:
-    """Remove padding from base64 values if need be."""
+    """Remove padding from base64 values if needed."""
     return val.rstrip("=")
 
 

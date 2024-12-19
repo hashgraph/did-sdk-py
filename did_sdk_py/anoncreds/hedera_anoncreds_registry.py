@@ -404,9 +404,12 @@ class HederaAnonCredsRegistry:
             if cached_messages:
                 last_cached_message_timestamp = cached_messages[-1].consensus_timestamp
 
-                if last_cached_message_timestamp.seconds > timestamp:
+                if last_cached_message_timestamp.seconds >= timestamp:
+                    borderline_timestamp = Timestamp(seconds=timestamp, nanos=0)
                     entries_messages = filter(
-                        lambda message: message.consensus_timestamp.seconds <= timestamp, cached_messages
+                        lambda message: message.consensus_timestamp.seconds < timestamp
+                        or message.consensus_timestamp == borderline_timestamp,
+                        cached_messages,
                     )
                     entries = [cast(AnonCredsRevRegEntry, message.message) for message in entries_messages]
 

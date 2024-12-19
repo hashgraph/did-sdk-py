@@ -13,7 +13,8 @@ class TestHcsFileChunkMessage:
         [
             (MOCK_MESSAGE_PARAMS, True),
             ({**MOCK_MESSAGE_PARAMS, "ordering_index": -1}, False),
-            ({**MOCK_MESSAGE_PARAMS, "chunk_content": "invalid-base64"}, False),
+            ({**MOCK_MESSAGE_PARAMS, "chunk_content": ""}, False),
+            ({**MOCK_MESSAGE_PARAMS, "chunk_content": None}, False),
         ],
     )
     def test_validates_content(self, message_params: dict, expected_validation_result: bool):
