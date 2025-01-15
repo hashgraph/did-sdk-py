@@ -343,6 +343,10 @@ class HederaAnonCredsRegistry:
             hcs_file_payload = rev_reg_def_with_metadata.to_json().encode()
             rev_reg_def_topic_id = await self._hcs_file_service.submit_file(hcs_file_payload, issuer_key_der)
 
+            # We want to cache registry definition right away
+            # Helps to avoid potential cases where issuer pushes rev entries immediately but registry definition data (HCS-1 messages) is not propagated to mirror nodes yet
+            self._rev_reg_def_cache.set(rev_reg_def_topic_id, rev_reg_def_with_metadata)
+
             return RegisterRevRegDefResult(
                 revocation_registry_definition_state=RevRegDefState(
                     state="finished",
