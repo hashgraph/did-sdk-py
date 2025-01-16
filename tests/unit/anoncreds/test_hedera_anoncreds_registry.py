@@ -13,6 +13,7 @@ from did_sdk_py import (
     CredDefValuePrimary,
     HederaAnonCredsRegistry,
     HederaClientProvider,
+    MemoryCache,
     RevRegDefValue,
 )
 from did_sdk_py.anoncreds.models.revocation import HcsRevRegEntryMessage, RevRegDefWithHcsMetadata, RevRegEntryValue
@@ -455,6 +456,23 @@ class TestHederaAnonCredsRegistry:
             mock_hcs_file_service.submit_file.assert_awaited_with(
                 MOCK_REV_REG_DEF_WITH_METADATA.to_json().encode(), OPERATOR_KEY_DER
             )
+
+        async def test_caches_registered_rev_reg_def(
+            self,
+            mock_client_provider: HederaClientProvider,
+            mock_hcs_file_service: NonCallableMagicMock,
+            mock_hcs_topic_service: NonCallableMagicMock,
+        ):
+            mock_hcs_file_service.submit_file.return_value = MOCK_REV_REG_DEF_TOPIC_ID
+
+            cache_instance = MemoryCache[str, object]()
+            registry = HederaAnonCredsRegistry(mock_client_provider, cache_instance)
+            registration_result = await registry.register_rev_reg_def(MOCK_REV_REG_DEF, OPERATOR_KEY_DER)
+
+            assert registration_result.revocation_registry_definition_state.state == "finished"
+
+            cached_rev_reg_def = cache_instance.get(MOCK_REV_REG_DEF_TOPIC_ID)
+            assert cached_rev_reg_def == MOCK_REV_REG_DEF_WITH_METADATA
 
         async def test_resolve_hits_cache(self, mock_client_provider: HederaClientProvider, mocker: MockerFixture):
             mock_cache_get = mocker.patch("did_sdk_py.utils.cache.Cache.get")
